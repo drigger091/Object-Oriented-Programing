@@ -14,10 +14,13 @@ class lMS:
                         
 
         def issue_book(self, book_id, user_name,user_id):
-                if self.status_check(self,book_id) is True:
+                if self.status_check(book_id) is True:
                         self.book_map[book_id][1] = user_name
                         self.book_map[book_id][4] = user_id
                         self.book_map[book_id][3] = False
+                        return True
+                else:
+                        return False
                         
 
         def return_book(self,book_id ,user_id):
@@ -33,6 +36,7 @@ class lMS:
                         return False
                 else:
                         self.book_map[book_id]=[book_name,None,None,True,None]
+                        return True
 
 
         def display_books(self):
@@ -56,6 +60,7 @@ def initialize():
 
 
         l.book_map = temp
+        return l
 
 def run(l):
         
@@ -73,19 +78,30 @@ def run(l):
                 elif user_choice == 2:
                         book_id = input("Enter the id of the book you want to lend:")
                         user_name = input("Enter your name:")
-                        user_id = input("Enter ypui registered id")
-
-                        l.issue_book(book_id,user_name,user_id)
+                        user_id = input("Enter your registered id")
+                        status = l.issue_book(book_id,user_name,user_id)
+                        if status is True:
+                                print("Book issued ")
+                        else:
+                                print("The book is not available!")
 
                 elif user_choice == 3:
                         book_name = input("Enter the name of the book you want to add")
 
-                        l.add_book(book_name)
+                        status = l.add_book(book_name)
+                        if status is True:
+                                print(" Book added succesfully!")
+                        else:
+                                print("Sorry cant be done")
 
                 elif user_choice == 4:
                         book_id = input("Enter the name of the book you want to return")
                         user_id = input("Please enter your registered id")
-                        l.return_book(book_id,user_id)
+                        status =l.return_book(book_id,user_id)
+                        if status is True:
+                                print("Your return is successful")
+                        else:
+                                print("OOPS and error occured")
 
                 else:
                         print("Enter the correct choice")
@@ -93,13 +109,13 @@ def cleanup():
         pass
 
 def main():
-        #initialize()
-        #run()
-        #cleanup()
+        l = initialize()
+        run(l)
+        cleanup()
         
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" :
        main()
 
 
